@@ -127,7 +127,7 @@
     <None Include="Resources\LogoBrGaapNova.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\00_Biblioteca\00_Biblioteca.csproj">
+    <ProjectReference Include="00_Biblioteca\00_Biblioteca.csproj">
       <Project>{44e8548a-a186-437e-9626-5ec56b3c5d69}</Project>
       <Name>00_Biblioteca</Name>
     </ProjectReference>
