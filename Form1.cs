@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FormMDITeste._01_SerializarXml;
+using FormMDITeste._02_SerializarJson;
 
 namespace FormMDITeste
 {
@@ -17,8 +18,11 @@ namespace FormMDITeste
         {
             InitializeComponent();
             SerializarXml serializarXml = new SerializarXml();
+            SerializarJson serializarJson = new SerializarJson();
 
-            MessageBox.Show(string.Format("Usuário(Nome): {0},\n CPF: {1},\n Email: {2}", serializarXml.Deserializer().Nome, serializarXml.Deserializer().CPF, serializarXml.Deserializer().Email));
+            serializarJson.Serializar();
+
+            MessageBox.Show(string.Format("Usuário(Nome): {0},\n CPF: {1},\n Email: {2}", serializarJson.Deserializar().Nome, serializarJson.Deserializar().CPF, serializarJson.Deserializar().Email));
         }
 
         private void Form2ToolStripMenuItem_Click(object sender, EventArgs e)
