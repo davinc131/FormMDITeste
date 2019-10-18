@@ -17,12 +17,12 @@ namespace FormMDITeste
         public Form1()
         {
             InitializeComponent();
-            SerializarXml serializarXml = new SerializarXml();
-            SerializarJson serializarJson = new SerializarJson();
+            //SerializarXml serializarXml = new SerializarXml();
+            //SerializarJson serializarJson = new SerializarJson();
 
-            serializarJson.Serializar();
+            //serializarJson.Serializar();
 
-            MessageBox.Show(string.Format("Usuário(Nome): {0},\n CPF: {1},\n Email: {2}", serializarJson.Deserializar().Nome, serializarJson.Deserializar().CPF, serializarJson.Deserializar().Email));
+            //MessageBox.Show(string.Format("Usuário(Nome): {0},\n CPF: {1},\n Email: {2}", serializarJson.Deserializar().Nome, serializarJson.Deserializar().CPF, serializarJson.Deserializar().Email));
         }
 
         private void Form2ToolStripMenuItem_Click(object sender, EventArgs e)
