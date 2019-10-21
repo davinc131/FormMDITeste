@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OpenProjectIntegrationClassLibrary;
 
 namespace FormMDITeste
 {
     public partial class MDIParent1 : Form
     {
         private int childFormNumber = 0;
+        
 
         public MDIParent1()
         {

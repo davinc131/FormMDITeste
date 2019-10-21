@@ -9,19 +9,22 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FormMDITeste._01_SerializarXml;
 using FormMDITeste._02_SerializarJson;
+using OpenProjectIntegrationClassLibrary;
 
 namespace FormMDITeste
 {
     public partial class Form1 : Form
     {
+
+        private static OpenProjectIntegration integration;
+
         public Form1()
         {
             InitializeComponent();
+
             //SerializarXml serializarXml = new SerializarXml();
             //SerializarJson serializarJson = new SerializarJson();
-
             //serializarJson.Serializar();
-
             //MessageBox.Show(string.Format("Usuário(Nome): {0},\n CPF: {1},\n Email: {2}", serializarJson.Deserializar().Nome, serializarJson.Deserializar().CPF, serializarJson.Deserializar().Email));
         }
 
@@ -73,6 +76,12 @@ namespace FormMDITeste
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            integration = new OpenProjectIntegration();
+            integration.OpenCall();
         }
     }
 }

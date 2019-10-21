@@ -11,12 +11,17 @@ using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OpenProjectIntegrationClassLibrary;
 
 namespace FormMDITeste
 {
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     public partial class Form2 : Form
     {
+        private OpenProjectIntegration open;
+        private string[] Auth = { "leonardo.suporte@brgaapempresarial.com.br", "u3r5v8k9cwporw" };
+        string JsonString;
+
         public Form2()
         {
             InitializeComponent();
@@ -30,10 +35,39 @@ namespace FormMDITeste
             // Load the user's home page.
             webBrowser2.GoHome();
 
+
+
+            open = new OpenProjectIntegration();
+            open.OpenCall();
+
             //webBrowser2.ObjectForScripting = new MyScript();
             //LoadUrl();
             //webBrowser2.DocumentText = WebRequestMethodTwo();
+            //SetParamiter();
+            //string request = WebRequestMethodTwo();
+        }
 
+        private void SetParamiter()
+        {
+            JsonString = @"{
+                               ""_links"": {
+                                   ""project"": {
+                                       ""href"": ""/api/v3/projects/3""
+                                   },
+                                   ""type"": {
+                                       ""href"": ""/api/v3/types/1""
+                                   },
+                                   ""category"": {
+                                       ""href"": ""/api/v3/categories/3""
+                                   }
+                               },
+                               ""subject"": ""TITEL"",
+                               ""description"": {
+                                   ""format"": ""markdown"",
+                                   ""raw"": ""test"",
+                                   ""html"": ""test""
+                               }   
+                            }";
         }
 
         private void LoadUrl()
@@ -44,9 +78,14 @@ namespace FormMDITeste
         private string WebRequestMethodTwo()
         {
             // Create a request for the URL. 		
-            WebRequest request = WebRequest.Create("http://167.99.229.202/?/api/v3/work_packages/1");
+            WebRequest request = WebRequest.Create("http://167.99.229.202/?/api/v3/work_packages/967/Auth?response_type=code&");
             // If required by the server, set the credentials.
-            request.Credentials = CredentialCache.DefaultCredentials;
+            CredentialCache credential = new CredentialCache();
+            credential.Add(new Uri("http://167.99.229.202/?/"), "Basic", new NetworkCredential(Auth[0], Auth[1]));
+
+            //request.Credentials = CredentialCache.DefaultCredentials;
+            request.Credentials = credential;
+
             // Get the response.
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             // Display the status.

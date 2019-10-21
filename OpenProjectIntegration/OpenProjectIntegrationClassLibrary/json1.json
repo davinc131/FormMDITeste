@@ -1,0 +1,12 @@
+{
+    "subject": "My Leonardo_Subject",
+    "description": {
+      "format": "textile",
+      "raw": "Leonardo Davinc Silva e silva"
+    },
+  "_links": {
+    "type": { "href": "http://167.99.229.202/?/api/v3/types/1" },
+    "status": { "href": "/api/v3/statuses/1" },
+    "priority": { "href": "/api/v3/priorities/8" }
+  }
+}
