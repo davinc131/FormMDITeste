@@ -45,7 +45,7 @@ namespace OpenProjectIntegrationClassLibrary
 
         private void SetParameters()
         {
-            StringUri = "http://167.99.229.202/?/api/v3/";
+            StringUri = "http://167.99.229.202/?/";
             JsonString = @"{""_links"": {
     ""self"": {
       ""href"": ""/api/v3/work_packages""
@@ -94,8 +94,8 @@ namespace OpenProjectIntegrationClassLibrary
 
             _restClient.BaseUrl = new Uri(StringUri);
             _restRequest.AddHeader("Content-type", "application/json");
-            _restRequest.AddHeader("Authorization", Authkey);
-            _restRequest.Resource = "/api/v3/work_packages/auth/oauth2/Authkey";
+            _restRequest.AddHeader("Authorization", "Bearer " + Authkey);
+            _restRequest.Resource = "/api/v3/work_packages/";//auth/oauth2/Authkey
             _restRequest.RequestFormat = DataFormat.Json;
             _restRequest.AddJsonBody(JsonString);
 
