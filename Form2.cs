@@ -30,7 +30,7 @@ namespace FormMDITeste
             // Load the user's home page.
             webBrowser2.GoHome();
 
-            webBrowser2.ObjectForScripting = new MyScript();
+            //webBrowser2.ObjectForScripting = new MyScript();
             //LoadUrl();
             //webBrowser2.DocumentText = WebRequestMethodTwo();
 
@@ -280,12 +280,12 @@ namespace FormMDITeste
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            webBrowser2.Navigate("http://167.99.229.202/?/api/v3/work_packages/1");
+            //webBrowser2.Navigate("http://167.99.229.202/?/api/v3/work_packages/1");
         }
 
         private void WebBrowser2_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            webBrowser1.Navigate("javascript: window.external.CallServerSideCode();");
+            //webBrowser1.Navigate("javascript: window.external.CallServerSideCode();");
         }
 
         private ToolStrip toolStrip1, toolStrip2;

@@ -29,5 +29,17 @@ namespace FormMDITeste
         {
             this.Close();
         }
+
+        private void ModalForm_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                //pictureBox1.Image = Image.FromFile(@"Resources\loader3.gif");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

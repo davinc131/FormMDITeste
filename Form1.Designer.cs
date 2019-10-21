@@ -57,14 +57,14 @@
             // form2ToolStripMenuItem
             // 
             this.form2ToolStripMenuItem.Name = "form2ToolStripMenuItem";
-            this.form2ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.form2ToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.form2ToolStripMenuItem.Text = "Form2";
             this.form2ToolStripMenuItem.Click += new System.EventHandler(this.Form2ToolStripMenuItem_Click);
             // 
             // form3ToolStripMenuItem
             // 
             this.form3ToolStripMenuItem.Name = "form3ToolStripMenuItem";
-            this.form3ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.form3ToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.form3ToolStripMenuItem.Text = "Form3";
             this.form3ToolStripMenuItem.Click += new System.EventHandler(this.Form3ToolStripMenuItem_Click);
             // 
@@ -77,7 +77,7 @@
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Principal";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);

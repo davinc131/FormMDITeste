@@ -43,7 +43,7 @@ namespace FormMDITeste
         {
             try
             {
-                var frm3 = new Form3();
+                var frm3 = new FrmBuscaCep();
                 frm3.MdiParent = this;
                 frm3.Show();
             }
