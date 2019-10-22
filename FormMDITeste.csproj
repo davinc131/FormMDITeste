@@ -431,5 +431,11 @@
   <ItemGroup>
     <None Include="Resources\loader3.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HollowNaughtyAfricanhornbill-small.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MarriedMarvelousHawaiianmonkseal-small.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

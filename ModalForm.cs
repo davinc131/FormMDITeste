@@ -19,6 +19,9 @@ namespace FormMDITeste
         {
             InitializeComponent();
 
+            this.BackColor = Color.White;
+            this.TransparencyKey = Color.White;
+
             timer = new DispatcherTimer();
             timer.Interval = new TimeSpan(0, 0, 5);
             timer.IsEnabled = true;
