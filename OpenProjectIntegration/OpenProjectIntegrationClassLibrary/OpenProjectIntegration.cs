@@ -28,7 +28,7 @@ namespace OpenProjectIntegrationClassLibrary
 
         public OpenProjectIntegration()
         {
-            StringUri = "http://167.99.229.202/?/api/v3/";
+            StringUri = "http://167.99.229.202/?/";
             JsonString = @"{
                                 ""subject"":""My Leonardo_Subject"",
                                 ""description"": {
@@ -46,38 +46,34 @@ namespace OpenProjectIntegrationClassLibrary
         private void SetParameters()
         {
             StringUri = "http://167.99.229.202/?/";
-            JsonString = @"{""_links"": {
-    ""self"": {
-      ""href"": ""/api/v3/work_packages""
+            JsonString = @"{
+    ""_links"": {
+        ""self"": { ""href"": ""/api/v3/work_packages/schemas"" }
+    },
+    ""total"": 5,
+    ""count"": 2,
+    ""_type"": ""Collection"",
+    ""_embedded"": {
+        ""elements"": [
+            {
+                ""_type"": ""Schema"",
+                ""_links"": {
+                    ""self"": { ""href"": ""/api/v3/work_packages/schemas/13-1"" }
+                }
+
+                <snip>
+
+            },
+            {
+                ""_type"": ""Schema"",
+                ""_links"": {
+                    ""self"": { ""href"": ""/api/v3/work_packages/schemas/7-6"" }
+                }
+
+                <snip>
+            }
+        ]
     }
-  },
-  ""total"": 2,
-  ""count"": 2,
-  ""_type"": ""Collection"",
-  ""_embedded"": {
-    ""elements"": [
-      {
-        ""_type"": ""WorkPackage"",
-        ""_links"": {
-          ""self"": {
-            ""href"": ""/api/v3/work_packages/1""
-          }
-        },
-        ""id"": 1,
-        ""subject"": ""Skipped other properties for brevity""
-      },
-      {
-        ""_type"": ""WorkPackage"",
-        ""_links"": {
-          ""self"": {
-            ""href"": ""/api/v3/work_packages/2""
-          }
-        },
-        ""id"": 2,
-        ""subject"": ""Skipped other properties for brevity""
-      }
-    ]
-  }
 }";
 
             credential = new CredentialCache();
@@ -93,13 +89,15 @@ namespace OpenProjectIntegrationClassLibrary
             _restRequest.Parameters.Clear();
 
             _restClient.BaseUrl = new Uri(StringUri);
+            _restRequest = new RestSharp.RestRequest(RestSharp.Method.GET);
             _restRequest.AddHeader("Content-type", "application/json");
-            _restRequest.AddHeader("Authorization", "Bearer " + Authkey);
-            _restRequest.Resource = "/api/v3/work_packages/";//auth/oauth2/Authkey
+            _restRequest.AddHeader("Authorization", "Basic " + Authkey);
+            _restRequest.Resource = "/api/v3/work_packages/1025/relations";
             _restRequest.RequestFormat = DataFormat.Json;
-            _restRequest.AddJsonBody(JsonString);
+            //_restRequest.AddJsonBody(JsonString);
 
-            var result = _restClient.Post<object>(_restRequest);
+            //var result = _restClient.Get<object>(_restRequest);
+            var result = _restClient.Execute(_restRequest);
         }
 
         public void DeserializeYml()
