@@ -48,9 +48,10 @@ namespace OpenProjectIntegrationClassLibrary
 
             _restRequest.Parameters.Clear();
 
-            _restClient.BaseUrl = new Uri(StringUri);
+            _restClient.BaseUrl = new Uri(StringTeste);
             _restRequest.AddHeader("Content-type", "application/json");
-            _restClient.Authenticator = new HttpBasicAuthenticator(Auth[0].Trim().ToLower(), Auth[1].Trim().ToLower());
+            _restRequest.Credentials = credential;
+            _restClient.Authenticator = new HttpBasicAuthenticator(AuthUser[0].Trim().ToLower(), AuthUser[1].Trim().ToLower());
             _restRequest.Resource = "/api/v3";
             _restRequest.RequestFormat = DataFormat.Json;
 
