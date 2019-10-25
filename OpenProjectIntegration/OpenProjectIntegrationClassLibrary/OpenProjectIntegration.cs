@@ -18,6 +18,7 @@ namespace OpenProjectIntegrationClassLibrary
         private IRestClient _restClient;
         private IRestRequest _restRequest;
         CredentialCache credential;
+        private string AccessToken = "96d32a2245941a04c37da8c57a836b53158a32319fb28d105fe561133001726a";
         private string[] AuthUser = { "davinc131@hotmail.com", "leonardo@123" };
         private string[] AuthServer = { "bitnami", "leonardo" };
         private string[] Auth = { "leonardo.suporte@brgaapempresarial.com.br", "u3r5v8k9cwporw" };
@@ -50,12 +51,19 @@ namespace OpenProjectIntegrationClassLibrary
 
             _restClient.BaseUrl = new Uri(StringTeste);
             _restRequest.AddHeader("Content-type", "application/json");
+            //-------------ACESSO POR TOKEN-------------------\\
+            _restClient.AddDefaultHeader("Authorization", string.Format("Bearer {0}", AccessToken));
+
+            //-------------ACESSO POR USUÁRIO E SENHA-------------------\\
+            //_restClient.AddDefaultHeader("Authorization", string.Format("Bearer {0}, {1}", AuthUser[0].Trim().ToLower(), AuthUser[1].Trim().ToLower()));
+
             _restRequest.Credentials = credential;
-            _restClient.Authenticator = new HttpBasicAuthenticator(AuthUser[0].Trim().ToLower(), AuthUser[1].Trim().ToLower());
-            _restRequest.Resource = "/api/v3";
+            _restRequest.Resource = "/api/v3/work_packages";
+            //_restRequest.Resource = "/api/v3/projects/3/work_packages/form";
             _restRequest.RequestFormat = DataFormat.Json;
 
             var result = _restClient.Get<object>(_restRequest);
+            //var result = _restClient.Post<object>(_restRequest);
 
             //_restRequest.Credentials = credential;
             //_restClient.Authenticator = new SimpleAuthenticator(@Auth[0].Trim().ToLower(), "username", @Auth[1].Trim().ToLower(), "password");
