@@ -35,10 +35,12 @@ namespace FormMDITeste
             // Load the user's home page.
             webBrowser2.GoHome();
 
-
+            object response;
 
             open = new OpenProjectIntegration();
-            open.OpenCall();
+            response = open.OpenCall();
+
+
 
             //webBrowser2.ObjectForScripting = new MyScript();
             //LoadUrl();

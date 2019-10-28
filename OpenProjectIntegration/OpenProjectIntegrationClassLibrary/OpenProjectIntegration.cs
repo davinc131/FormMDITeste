@@ -43,7 +43,7 @@ namespace OpenProjectIntegrationClassLibrary
             _restClient = new RestClient();
         }
 
-        public void OpenCall()
+        public object OpenCall()
         {
             SetParameters();
 
@@ -52,13 +52,13 @@ namespace OpenProjectIntegrationClassLibrary
             _restClient.BaseUrl = new Uri(StringTeste);
             _restRequest.AddHeader("Content-type", "application/json");
             //-------------ACESSO POR TOKEN-------------------\\
-            _restClient.AddDefaultHeader("Authorization", string.Format("Bearer {0}", AccessToken));
+            //_restClient.AddDefaultHeader("Authorization", string.Format("Bearer {0}", AccessToken));
 
             //-------------ACESSO POR USUÁRIO E SENHA-------------------\\
-            //_restClient.AddDefaultHeader("Authorization", string.Format("Bearer {0}, {1}", AuthUser[0].Trim().ToLower(), AuthUser[1].Trim().ToLower()));
+            _restClient.AddDefaultHeader("Authorization", string.Format("Bearer {0}, {1}", AuthUser[0].Trim().ToLower(), AuthUser[1].Trim().ToLower()));
 
             _restRequest.Credentials = credential;
-            _restRequest.Resource = "/api/v3/work_packages";
+            _restRequest.Resource = "/api/v3/work_packages/42";
             //_restRequest.Resource = "/api/v3/projects/3/work_packages/form";
             _restRequest.RequestFormat = DataFormat.Json;
 
@@ -73,6 +73,8 @@ namespace OpenProjectIntegrationClassLibrary
             //_restRequest.AddParameter("password", Auth[1].Trim().ToLower());
             //_restRequest.AddJsonBody(JsonString);
             //var result = _restClient.Execute(_restRequest);
+
+            return result;
         }
 
         public void DeserializeYml()
