@@ -36,7 +36,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,8 +52,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin.cs" />
+    <Compile Include="Configurations\Configuration.cs" />
     <Compile Include="Groups.cs" />
     <Compile Include="Info.cs" />
+    <Compile Include="Models\Description.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\WorkPackage.cs" />
@@ -59,6 +64,7 @@
     <Compile Include="Security.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="config.yml" />
     <None Include="configuration.yml" />
     <None Include="json1.json" />

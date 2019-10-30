@@ -81,7 +81,7 @@ namespace FormMDITeste
         private void Button1_Click(object sender, EventArgs e)
         {
             integration = new OpenProjectIntegration();
-            integration.OpenCall();
+            integration.QueryWorkPackage();
         }
     }
 }

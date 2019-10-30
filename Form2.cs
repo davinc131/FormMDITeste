@@ -38,7 +38,9 @@ namespace FormMDITeste
             object response;
 
             open = new OpenProjectIntegration();
-            response = open.OpenCall();
+            //response = open.QueryWorkPackage();
+            response = open.CreateWorkPackage();
+            response = open.ListUsers();
 
 
 
@@ -47,34 +49,6 @@ namespace FormMDITeste
             //webBrowser2.DocumentText = WebRequestMethodTwo();
             //SetParamiter();
             //string request = WebRequestMethodTwo();
-        }
-
-        private void SetParamiter()
-        {
-            JsonString = @"{
-                               ""_links"": {
-                                   ""project"": {
-                                       ""href"": ""/api/v3/projects/3""
-                                   },
-                                   ""type"": {
-                                       ""href"": ""/api/v3/types/1""
-                                   },
-                                   ""category"": {
-                                       ""href"": ""/api/v3/categories/3""
-                                   }
-                               },
-                               ""subject"": ""TITEL"",
-                               ""description"": {
-                                   ""format"": ""markdown"",
-                                   ""raw"": ""test"",
-                                   ""html"": ""test""
-                               }   
-                            }";
-        }
-
-        private void LoadUrl()
-        {
-            
         }
 
         private string WebRequestMethodTwo()

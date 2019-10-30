@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using OpenProjectIntegrationClassLibrary.Models;
+using RestSharp;
 using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,10 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using YamlDotNet.Serialization;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 
 namespace OpenProjectIntegrationClassLibrary
 {
@@ -24,6 +28,15 @@ namespace OpenProjectIntegrationClassLibrary
         private string[] Auth = { "leonardo.suporte@brgaapempresarial.com.br", "u3r5v8k9cwporw" };
         private string[] Authkey = { "leonardo.suporte@brgaapempresarial.com.br", "ae0444e17dd5faf7a4e49fcdabb4fc94d7feb50ed61dfb1ef43735049a5c0572" };
 
+        private string queryUser = "/api/v3/users/4";
+        private string listUser = "/api/v3/users?";
+        private string listWorkPackage = "/api/v3/work_packages";
+        private string queryWorkPackage = "/api/v3/work_packages/42";
+        private string queryRevisions = "/api/v3/work_packages/42/revisions";
+        private string createWorkPackage = "/api/v3/projects/3/work_packages";
+
+        private string jsonString = "";
+
         public OpenProjectIntegration(IRestClient restClient, IRestRequest restRequest)
         {
             _restClient = restClient;
@@ -32,24 +45,101 @@ namespace OpenProjectIntegrationClassLibrary
 
         public OpenProjectIntegration(){}
 
+        private void SetJsonString()
+        {
+            jsonString = @"{
+               ""_links"": {
+                   ""project"": {
+                       ""href"": ""/api/v3/projects/3""
+                   },
+                   ""type"": {
+                       ""href"": ""/api/v3/types/1""
+                   }
+               },
+               ""subject"": ""Teste sem credencial"",
+               ""description"": {
+                   ""format"": ""markdown"",
+                   ""raw"": ""Novo teste sem credenciais do servidor"",
+                   ""html"": ""<p>Novo teste sem credenciais do servidor</p>""
+               }   
+            }";
+        }
+
         private void SetParameters()
         {
-            StringUri = "http://167.99.229.202:80";
-            StringTeste = "http://192.168.130.128";
+            StringUri = "http://192.168.50.134";
+            StringTeste = "http://192.168.50.134";
             credential = new CredentialCache();
             //credential.Add(new Uri("http://167.99.229.202/?/"), "Basic", new NetworkCredential(Auth[0], Auth[1]));
-            credential.Add(new Uri("http://192.168.130.128/"), "Basic", new NetworkCredential(AuthServer[0], AuthServer[1]));
+            credential.Add(new Uri("http://192.168.50.134/"), "Basic", new NetworkCredential(AuthServer[0], AuthServer[1]));
             _restRequest = new RestRequest();
             _restClient = new RestClient();
         }
 
-        public object OpenCall()
+        public object QueryWorkPackage()
         {
             SetParameters();
 
             _restRequest.Parameters.Clear();
 
-            _restClient.BaseUrl = new Uri(StringTeste);
+            _restClient.BaseUrl = new Uri(StringUri);
+            _restRequest.AddHeader("Content-type", "application/json");
+
+            //-------------ACESSO POR TOKEN-------------------\\
+            //_restClient.AddDefaultHeader("Authorization", string.Format("Bearer {0}", AccessToken));
+
+            //-------------ACESSO POR USUÁRIO E SENHA-------------------\\
+            //_restClient.AddDefaultHeader("Authorization", string.Format("Bearer {0}, {1}", AuthUser[0].Trim().ToLower(), AuthUser[1].Trim().ToLower()));
+
+            //-------------ACESSO POR TOKEN-------------------\\
+            _restClient.AddDefaultHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
+            _restRequest.AddHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
+
+            _restRequest.Credentials = credential;
+            _restRequest.Resource = queryWorkPackage;
+            _restRequest.RequestFormat = DataFormat.Json;
+
+            var result = _restClient.Get<WorkPackage>(_restRequest);
+
+            return result;
+        }
+
+        public object GetAllWorkPackage(int idUser)
+        {
+            SetParameters();
+
+            _restRequest.Parameters.Clear();
+
+
+            _restClient.BaseUrl = new Uri(StringUri);
+            _restRequest.AddHeader("Content-type", "application/json");
+
+            //-------------ACESSO POR TOKEN-------------------\\
+            //_restClient.AddDefaultHeader("Authorization", string.Format("Bearer {0}", AccessToken));
+
+            //-------------ACESSO POR USUÁRIO E SENHA-------------------\\
+            //_restClient.AddDefaultHeader("Authorization", string.Format("Bearer {0}, {1}", AuthUser[0].Trim().ToLower(), AuthUser[1].Trim().ToLower()));
+
+            //-------------ACESSO POR TOKEN-------------------\\
+            _restClient.AddDefaultHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
+            _restRequest.AddHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
+
+            _restRequest.Credentials = credential;
+            _restRequest.Resource = listWorkPackage;
+            _restRequest.RequestFormat = DataFormat.Json;
+
+            var result = _restClient.Get<object>(_restRequest);
+
+            return result;
+        }
+
+        public object GetRevisions(int idRevisions)
+        {
+            SetParameters();
+
+            _restRequest.Parameters.Clear();
+
+            _restClient.BaseUrl = new Uri(StringUri);
             _restRequest.AddHeader("Content-type", "application/json");
             //-------------ACESSO POR TOKEN-------------------\\
             //_restClient.AddDefaultHeader("Authorization", string.Format("Bearer {0}", AccessToken));
@@ -58,36 +148,107 @@ namespace OpenProjectIntegrationClassLibrary
             _restClient.AddDefaultHeader("Authorization", string.Format("Bearer {0}, {1}", AuthUser[0].Trim().ToLower(), AuthUser[1].Trim().ToLower()));
 
             _restRequest.Credentials = credential;
-            _restRequest.Resource = "/api/v3/work_packages/42";
-            //_restRequest.Resource = "/api/v3/projects/3/work_packages/form";
+            _restRequest.Resource = queryRevisions;
             _restRequest.RequestFormat = DataFormat.Json;
 
             var result = _restClient.Get<object>(_restRequest);
-            //var result = _restClient.Post<object>(_restRequest);
-
-            //_restRequest.Credentials = credential;
-            //_restClient.Authenticator = new SimpleAuthenticator(@Auth[0].Trim().ToLower(), "username", @Auth[1].Trim().ToLower(), "password");
-            //_restRequest = new RestSharp.RestRequest(RestSharp.Method.GET);
-            //_restRequest.AddHeader("Authorization", "Bearer " + Authkey[1]);
-            //_restRequest.AddParameter("username", Auth[0].Trim().ToLower());
-            //_restRequest.AddParameter("password", Auth[1].Trim().ToLower());
-            //_restRequest.AddJsonBody(JsonString);
-            //var result = _restClient.Execute(_restRequest);
 
             return result;
         }
 
-        public void DeserializeYml()
+        public object CreateWorkPackage()
         {
-            string path = @"C:\Users\USER-23\source\repos\FormMDITeste\OpenProjectIntegration\OpenProjectIntegrationClassLibrary\config.yml";
-            Security security = new Security();
-            Groups groups;
-            Admin admin;
-            using (var r = new StreamReader(path))
+            SetParameters();
+            SetJsonString();
+
+            _restRequest.Parameters.Clear();
+
+            _restClient.BaseUrl = new Uri(StringUri);
+            _restRequest.AddHeader("Content-type", "application/json");
+
+            //-------------ACESSO POR TOKEN-------------------\\
+            _restClient.AddDefaultHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
+            _restRequest.AddHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
+
+            _restRequest.AddJsonBody(jsonString);
+
+            //_restRequest.Credentials = credential;
+            _restRequest.Resource = createWorkPackage;
+            _restRequest.RequestFormat = DataFormat.Json;
+
+            var result = _restClient.Post(_restRequest);
+
+            
+            return result;
+        }
+
+        public object ListUsers()
+        {
+            SetParameters();
+            SetJsonString();
+
+            _restRequest.Parameters.Clear();
+
+            _restClient.BaseUrl = new Uri(StringUri);
+            _restRequest.AddHeader("Content-type", "application/json");
+
+            //-------------ACESSO POR TOKEN-------------------\\
+            _restClient.AddDefaultHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
+            _restRequest.AddHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
+
+            //_restRequest.AddJsonBody(jsonString);
+
+            //_restRequest.Credentials = credential;
+            _restRequest.Resource = listUser;
+            _restRequest.RequestFormat = DataFormat.Json;
+
+            var result = _restClient.Get(_restRequest);
+
+            var user = ConverteJSonParaObject<List<User>>(result.Content);
+
+            return result;
+        }
+
+        public string SerializeObject<T>(T t)
+        {
+            JavaScriptSerializer serializeObject = new JavaScriptSerializer();
+            return serializeObject.Serialize(t);
+        }
+
+        public T DeserializeObject<T>(string json)
+        {
+            JavaScriptSerializer desserializeObject = new JavaScriptSerializer();
+            return desserializeObject.Deserialize<T>(json);
+        }
+
+        public string ConverteObjectParaJSon<T>(T obj)
+        {
+            try
             {
-                var deserializer = new Deserializer();
-                security = deserializer.Deserialize<Security>(r);
-                //security.Groups = groups;
+                DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(T));
+                MemoryStream ms = new MemoryStream();
+                ser.WriteObject(ms, obj);
+                string jsonString = Encoding.UTF8.GetString(ms.ToArray());
+                ms.Close();
+                return jsonString;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public T ConverteJSonParaObject<T>(string jsonString)
+        {
+            try
+            {
+                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T));
+                MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonString));
+                T obj = (T)serializer.ReadObject(ms);
+                return obj;
+            }
+            catch
+            {
+                throw;
             }
         }
     }
