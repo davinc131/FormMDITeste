@@ -35,12 +35,14 @@ namespace FormMDITeste
             // Load the user's home page.
             webBrowser2.GoHome();
 
-            object response;
+            object projectId;
+            object userId;
 
             open = new OpenProjectIntegration();
             //response = open.QueryWorkPackage();
-            response = open.CreateWorkPackage();
-            response = open.ListUsers();
+            //response = open.CreateWorkPackage();
+            projectId = open.CaptureProjectId("Freemasonry");
+            userId = open.CaptureUserId("davinc131@hotmail.com");
 
 
 

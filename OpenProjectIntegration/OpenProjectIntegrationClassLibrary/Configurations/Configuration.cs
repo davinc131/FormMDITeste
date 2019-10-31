@@ -10,17 +10,27 @@ namespace OpenProjectIntegrationClassLibrary.Configurations
     {
         public string ProjectId { get; set; }
         public string TypeId { get; set; }
-        public string UserId { get; set; }
-        public string AccessToken { get; set; }
+        public UserSystem UserSystem { get; set; }
         public Uri StringUri { get; set; }
 
-        public Configuration(string projectId, string typeId, string userId, string accessToken, Uri stringUri)
+        public Configuration(string projectId, string typeId, UserSystem userSystem, Uri stringUri)
         {
             this.ProjectId = projectId;
             this.TypeId = typeId;
-            this.UserId = userId;
-            this.AccessToken = accessToken;
+            this.UserSystem = userSystem;
             this.StringUri = stringUri;
+        }
+
+        public Configuration(string projectId, string typeId, Uri stringUri)
+        {
+            this.ProjectId = projectId;
+            this.StringUri = stringUri;
+            this.TypeId = typeId;
+        }
+
+        public Configuration(UserSystem userSystem)
+        {
+            this.UserSystem = userSystem;
         }
     }
 }

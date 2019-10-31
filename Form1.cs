@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using FormMDITeste._01_SerializarXml;
 using FormMDITeste._02_SerializarJson;
 using OpenProjectIntegrationClassLibrary;
+using OpenProjectIntegrationClassLibrary.Forms;
 
 namespace FormMDITeste
 {
@@ -21,6 +22,9 @@ namespace FormMDITeste
         public Form1()
         {
             InitializeComponent();
+            integration = new OpenProjectIntegration();
+            FormLogin formLogin = new FormLogin();
+            formLogin.Show();
 
             //SerializarXml serializarXml = new SerializarXml();
             //SerializarJson serializarJson = new SerializarJson();

@@ -12,6 +12,16 @@ using System.Web.Script.Serialization;
 using YamlDotNet.Serialization;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using OpenProjectIntegrationClassLibrary.Services;
+using System.Net.Http;
+using Microsoft.VisualStudio.Services.WebApi;
+using System.Fabric.Query;
+using Castle.Core.Resource;
+using HalClient.Net.Parser;
+using HalClient.Net;
+using PagedList;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace OpenProjectIntegrationClassLibrary
 {
@@ -29,13 +39,17 @@ namespace OpenProjectIntegrationClassLibrary
         private string[] Authkey = { "leonardo.suporte@brgaapempresarial.com.br", "ae0444e17dd5faf7a4e49fcdabb4fc94d7feb50ed61dfb1ef43735049a5c0572" };
 
         private string queryUser = "/api/v3/users/4";
-        private string listUser = "/api/v3/users?";
+        private string stringlistUser = "/api/v3/users?";
         private string listWorkPackage = "/api/v3/work_packages";
+        private string stringlistProject = "/api/v3/projects";
         private string queryWorkPackage = "/api/v3/work_packages/42";
         private string queryRevisions = "/api/v3/work_packages/42/revisions";
         private string createWorkPackage = "/api/v3/projects/3/work_packages";
 
         private string jsonString = "";
+
+        private List<User> listUser = new List<User>();
+        private List<Project> listProject = new List<Project>();
 
         public OpenProjectIntegration(IRestClient restClient, IRestRequest restRequest)
         {
@@ -56,11 +70,11 @@ namespace OpenProjectIntegrationClassLibrary
                        ""href"": ""/api/v3/types/1""
                    }
                },
-               ""subject"": ""Teste sem credencial"",
+               ""subject"": ""Teste credencial Usuário"",
                ""description"": {
                    ""format"": ""markdown"",
-                   ""raw"": ""Novo teste sem credenciais do servidor"",
-                   ""html"": ""<p>Novo teste sem credenciais do servidor</p>""
+                   ""raw"": ""Teste credencial usuário e senha"",
+                   ""html"": ""<p>Teste credencial usuário e senha</p>""
                }   
             }";
         }
@@ -170,6 +184,10 @@ namespace OpenProjectIntegrationClassLibrary
             _restClient.AddDefaultHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
             _restRequest.AddHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
 
+            //-------------ACESSO POR TOKEN-------------------\\
+            //_restClient.AddDefaultHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"username:{AuthUser[0]}"))+ Convert.ToBase64String(Encoding.Default.GetBytes($", password:{AuthUser[1]}")));
+            //_restRequest.AddHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"username:{AuthUser[0]}")) + Convert.ToBase64String(Encoding.Default.GetBytes($", password:{AuthUser[1]}")));
+
             _restRequest.AddJsonBody(jsonString);
 
             //_restRequest.Credentials = credential;
@@ -182,7 +200,7 @@ namespace OpenProjectIntegrationClassLibrary
             return result;
         }
 
-        public object ListUsers()
+        public List<User> ListUsers()
         {
             SetParameters();
             SetJsonString();
@@ -196,60 +214,92 @@ namespace OpenProjectIntegrationClassLibrary
             _restClient.AddDefaultHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
             _restRequest.AddHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
 
-            //_restRequest.AddJsonBody(jsonString);
-
-            //_restRequest.Credentials = credential;
-            _restRequest.Resource = listUser;
+            _restRequest.Resource = stringlistUser;
             _restRequest.RequestFormat = DataFormat.Json;
 
             var result = _restClient.Get(_restRequest);
 
-            var user = ConverteJSonParaObject<List<User>>(result.Content);
+            Users users = DeserializeUsers(result.Content);
+            listUser = users._embedded;
 
-            return result;
+            return listUser;
         }
 
-        public string SerializeObject<T>(T t)
+        public List<Project> ListProject()
         {
-            JavaScriptSerializer serializeObject = new JavaScriptSerializer();
-            return serializeObject.Serialize(t);
+            SetParameters();
+            SetJsonString();
+
+            _restRequest.Parameters.Clear();
+
+            _restClient.BaseUrl = new Uri(StringUri);
+            _restRequest.AddHeader("Content-type", "application/json");
+
+            //-------------ACESSO POR TOKEN-------------------\\
+            _restClient.AddDefaultHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
+            _restRequest.AddHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
+
+            _restRequest.Resource = stringlistProject;
+            _restRequest.RequestFormat = DataFormat.Json;
+
+            var result = _restClient.Get(_restRequest);
+
+            Projects projects = DeserializeProject(result.Content);
+            listProject = projects._embedded;
+
+            return listProject;
         }
 
-        public T DeserializeObject<T>(string json)
+        public int CaptureProjectId(string projectName)
         {
-            JavaScriptSerializer desserializeObject = new JavaScriptSerializer();
-            return desserializeObject.Deserialize<T>(json);
+            var list = ListProject();
+
+            Project project = list.Find(x => x.name == projectName);
+
+            return project.id;
         }
 
-        public string ConverteObjectParaJSon<T>(T obj)
+        public int CaptureUserId(string userName)
         {
-            try
-            {
-                DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(T));
-                MemoryStream ms = new MemoryStream();
-                ser.WriteObject(ms, obj);
-                string jsonString = Encoding.UTF8.GetString(ms.ToArray());
-                ms.Close();
-                return jsonString;
-            }
-            catch
-            {
-                throw;
-            }
+            var list = ListUsers();
+
+            User user = list.Find(x => x.login == userName);
+
+            return user.id;
         }
-        public T ConverteJSonParaObject<T>(string jsonString)
+
+        public Users DeserializeUsers(string json)
         {
-            try
+            var settings = new JsonSerializerSettings
             {
-                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T));
-                MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonString));
-                T obj = (T)serializer.ReadObject(ms);
-                return obj;
-            }
-            catch
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                }
+            };
+
+            settings.Converters.Add(new NestedJsonPathConverter());
+
+            var customer = Newtonsoft.Json.JsonConvert.DeserializeObject<Users>(json, settings);
+
+            return customer;
+        }
+
+        public Projects DeserializeProject(string json)
+        {
+            var settings = new JsonSerializerSettings
             {
-                throw;
-            }
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                }
+            };
+
+            settings.Converters.Add(new NestedJsonPathConverter());
+
+            var customer = Newtonsoft.Json.JsonConvert.DeserializeObject<Projects>(json, settings);
+
+            return customer;
         }
     }
 }

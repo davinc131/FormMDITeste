@@ -130,7 +130,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="configuration.yml" />
     <None Include="Connected Services\WSCep\AtendeClienteService.wsdl" />
     <None Include="Connected Services\WSCep\FormMDITeste.WSCep.atualizaPagamentoNaEntregaResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>

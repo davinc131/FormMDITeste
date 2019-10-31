@@ -18,14 +18,14 @@ namespace FormMDITeste._02_SerializarJson
             JavaScriptSerializer serializador = new JavaScriptSerializer();
             string stringObjSerializer = serializador.Serialize(usuario);
 
-            StreamWriter sw = new StreamWriter(@"C:\Users\USER-23\Documents\Arquivos C#\02_Serializar.json");
+            StreamWriter sw = new StreamWriter(@"../openproject_brgaap.json");
             sw.WriteLine(stringObjSerializer);
             sw.Close();
         }
 
         public Usuario Deserializar()
         {
-            StreamReader streamReader = new StreamReader(@"C:\Users\USER-23\Documents\Arquivos C#\02_Serializar.json");
+            StreamReader streamReader = new StreamReader(@"../openproject_brgaap.json");
             string textJson = streamReader.ReadToEnd();
 
             JavaScriptSerializer serializador = new JavaScriptSerializer();
