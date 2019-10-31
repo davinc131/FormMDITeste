@@ -45,6 +45,7 @@ namespace OpenProjectIntegrationClassLibrary
         private string queryWorkPackage = "/api/v3/work_packages/42";
         private string queryRevisions = "/api/v3/work_packages/42/revisions";
         private string createWorkPackage = "/api/v3/projects/3/work_packages";
+        private string stringlistCategories = "/api/v3/projects/3/categories";
 
         private string jsonString = "";
 
@@ -223,6 +224,31 @@ namespace OpenProjectIntegrationClassLibrary
             listUser = users._embedded;
 
             return listUser;
+        }
+
+        public void ListCategories()
+        {
+            SetParameters();
+            SetJsonString();
+
+            _restRequest.Parameters.Clear();
+
+            _restClient.BaseUrl = new Uri(StringUri);
+            _restRequest.AddHeader("Content-type", "application/json");
+
+            //-------------ACESSO POR TOKEN-------------------\\
+            _restClient.AddDefaultHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
+            _restRequest.AddHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
+
+            _restRequest.Resource = stringlistCategories;
+            _restRequest.RequestFormat = DataFormat.Json;
+
+            var result = _restClient.Get(_restRequest);
+
+            //Projects projects = DeserializeProject(result.Content);
+            //listProject = projects._embedded;
+
+            //return listProject;
         }
 
         public List<Project> ListProject()

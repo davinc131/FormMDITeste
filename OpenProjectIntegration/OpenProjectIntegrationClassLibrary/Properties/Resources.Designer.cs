@@ -63,6 +63,16 @@ namespace OpenProjectIntegrationClassLibrary.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _33280 {
+            get {
+                object obj = ResourceManager.GetObject("_33280", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _36601 {
             get {
                 object obj = ResourceManager.GetObject("_36601", resourceCulture);

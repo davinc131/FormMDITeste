@@ -22,9 +22,9 @@ namespace FormMDITeste
         public Form1()
         {
             InitializeComponent();
-            integration = new OpenProjectIntegration();
-            FormLogin formLogin = new FormLogin();
-            formLogin.Show();
+            //integration = new OpenProjectIntegration();
+            //FormLogin formLogin = new FormLogin();
+            //formLogin.Show();
 
             //SerializarXml serializarXml = new SerializarXml();
             //SerializarJson serializarJson = new SerializarJson();

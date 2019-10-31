@@ -38,12 +38,16 @@ namespace FormMDITeste
             object projectId;
             object userId;
 
+            object categories;
+
             open = new OpenProjectIntegration();
             //response = open.QueryWorkPackage();
             //response = open.CreateWorkPackage();
             projectId = open.CaptureProjectId("Freemasonry");
             userId = open.CaptureUserId("davinc131@hotmail.com");
 
+
+            open.ListCategories();
 
 
             //webBrowser2.ObjectForScripting = new MyScript();

@@ -117,23 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Create_Token" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Create_Token.wmv;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="LogoBrGaapNova" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LogoBrGaapNova.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="padlock_lock_shape_icon_icons_com_56915" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\padlock-lock-shape_icon-icons.com_56915.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_33280" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\33280.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_36601" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\36601.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_66847" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\66847.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
 </root>
