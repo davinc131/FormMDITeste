@@ -8,29 +8,23 @@ namespace OpenProjectIntegrationClassLibrary.Configurations
 {
     public class Configuration
     {
-        public string ProjectId { get; set; }
+        public int ConfigurationsId { get; set; }
+        public int ProjectId { get; set; }
+        public string ProjectName { get; set; }
         public string TypeId { get; set; }
-        public UserSystem UserSystem { get; set; }
         public Uri StringUri { get; set; }
 
-        public Configuration(string projectId, string typeId, UserSystem userSystem, Uri stringUri)
+        public Configuration(string projectName, Uri stringUri)
         {
-            this.ProjectId = projectId;
-            this.TypeId = typeId;
-            this.UserSystem = userSystem;
+            this.ProjectName = projectName;
             this.StringUri = stringUri;
         }
 
-        public Configuration(string projectId, string typeId, Uri stringUri)
+        public Configuration(int projectId, Uri stringUri, string typeId = null)
         {
             this.ProjectId = projectId;
-            this.StringUri = stringUri;
             this.TypeId = typeId;
-        }
-
-        public Configuration(UserSystem userSystem)
-        {
-            this.UserSystem = userSystem;
+            this.StringUri = stringUri;
         }
     }
 }

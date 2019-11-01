@@ -33,7 +33,7 @@ namespace OpenProjectIntegrationClassLibrary.Forms
         {
             try
             {
-
+                this.Close();
             }
             catch (Exception ex)
             {

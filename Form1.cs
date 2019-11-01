@@ -23,8 +23,9 @@ namespace FormMDITeste
         {
             InitializeComponent();
             //integration = new OpenProjectIntegration();
-            FormLogin formLogin = new FormLogin();
-            formLogin.Show();
+
+            //FormLogin formLogin = new FormLogin();
+            //formLogin.Show();
 
             //SerializarXml serializarXml = new SerializarXml();
             //SerializarJson serializarJson = new SerializarJson();

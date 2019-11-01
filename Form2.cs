@@ -41,7 +41,7 @@ namespace FormMDITeste
             object categories;
 
             open = new OpenProjectIntegration();
-            //response = open.QueryWorkPackage();
+            open.GetAllWorkPackage(1);
             //response = open.CreateWorkPackage();
             //projectId = open.CaptureProjectId("Freemasonry");
             //userId = open.CaptureUserId("davinc131@hotmail.com");

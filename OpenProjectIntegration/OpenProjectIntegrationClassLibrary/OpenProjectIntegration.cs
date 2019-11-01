@@ -40,10 +40,11 @@ namespace OpenProjectIntegrationClassLibrary
 
         private string queryUser = "/api/v3/users/4";
         private string stringlistUser = "/api/v3/users?";
-        private string listWorkPackage = "/api/v3/work_packages";
+        private string stringlistWorkPackage = "/api/v3/projects/3/work_packages";
         private string stringlistProject = "/api/v3/projects";
         private string queryWorkPackage = "/api/v3/work_packages/42";
-        private string queryRevisions = "/api/v3/work_packages/42/revisions";
+        private string queryActivitys = "/api/v3/work_packages/42/activities";
+        private string queryRelations = "/api/v3/work_packages/42/relations";
         private string createWorkPackage = "/api/v3/projects/3/work_packages";
         private string stringlistCategories = "/api/v3/projects/3/categories";
 
@@ -51,6 +52,7 @@ namespace OpenProjectIntegrationClassLibrary
 
         private List<User> listUser = new List<User>();
         private List<Project> listProject = new List<Project>();
+        private List<WorkPackage> listWorkPackage = new List<WorkPackage>();
 
         public OpenProjectIntegration(IRestClient restClient, IRestRequest restRequest)
         {
@@ -125,30 +127,32 @@ namespace OpenProjectIntegrationClassLibrary
 
             _restRequest.Parameters.Clear();
 
-
             _restClient.BaseUrl = new Uri(StringUri);
             _restRequest.AddHeader("Content-type", "application/json");
-
-            //-------------ACESSO POR TOKEN-------------------\\
-            //_restClient.AddDefaultHeader("Authorization", string.Format("Bearer {0}", AccessToken));
-
-            //-------------ACESSO POR USUÁRIO E SENHA-------------------\\
-            //_restClient.AddDefaultHeader("Authorization", string.Format("Bearer {0}, {1}", AuthUser[0].Trim().ToLower(), AuthUser[1].Trim().ToLower()));
 
             //-------------ACESSO POR TOKEN-------------------\\
             _restClient.AddDefaultHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
             _restRequest.AddHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
 
-            _restRequest.Credentials = credential;
-            _restRequest.Resource = listWorkPackage;
+            _restRequest.Resource = stringlistWorkPackage;
             _restRequest.RequestFormat = DataFormat.Json;
 
-            var result = _restClient.Get<object>(_restRequest);
+            var result = _restClient.Get(_restRequest);
 
-            return result;
+            WorkPackages workPackage = DeserializeWorkPackage(result.Content);
+            listWorkPackage = workPackage._embedded;
+
+            CompareUserId();
+
+            for(int i = 0; i < listWorkPackage.Count; i++)
+            {
+                listWorkPackage[i].Activity = GetActivitys(listWorkPackage[i].activities.href)._embedded;
+            }
+
+            return listWorkPackage;
         }
 
-        public object GetRevisions(int idRevisions)
+        public Activitys GetActivitys(string query)
         {
             SetParameters();
 
@@ -156,19 +160,19 @@ namespace OpenProjectIntegrationClassLibrary
 
             _restClient.BaseUrl = new Uri(StringUri);
             _restRequest.AddHeader("Content-type", "application/json");
+
             //-------------ACESSO POR TOKEN-------------------\\
-            //_restClient.AddDefaultHeader("Authorization", string.Format("Bearer {0}", AccessToken));
+            _restClient.AddDefaultHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
+            _restRequest.AddHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
 
-            //-------------ACESSO POR USUÁRIO E SENHA-------------------\\
-            _restClient.AddDefaultHeader("Authorization", string.Format("Bearer {0}, {1}", AuthUser[0].Trim().ToLower(), AuthUser[1].Trim().ToLower()));
-
-            _restRequest.Credentials = credential;
-            _restRequest.Resource = queryRevisions;
+            _restRequest.Resource = query;
             _restRequest.RequestFormat = DataFormat.Json;
 
-            var result = _restClient.Get<object>(_restRequest);
+            var result = _restClient.Get(_restRequest);
 
-            return result;
+            Activitys activities = DeserializeActivity(result.Content);
+
+            return activities;
         }
 
         public object CreateWorkPackage()
@@ -276,6 +280,31 @@ namespace OpenProjectIntegrationClassLibrary
             return listProject;
         }
 
+        public void GetAllRelations()
+        {
+            SetParameters();
+            SetJsonString();
+
+            _restRequest.Parameters.Clear();
+
+            _restClient.BaseUrl = new Uri(StringUri);
+            _restRequest.AddHeader("Content-type", "application/json");
+
+            //-------------ACESSO POR TOKEN-------------------\\
+            _restClient.AddDefaultHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
+            _restRequest.AddHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes($"apikey:{AccessToken}")));
+
+            _restRequest.Resource = queryRelations;
+            _restRequest.RequestFormat = DataFormat.Json;
+
+            var result = _restClient.Get(_restRequest);
+
+            //Projects projects = DeserializeProject(result.Content);
+            //listProject = projects._embedded;
+
+            //return listProject;
+        }
+
         public int CaptureProjectId(string projectName)
         {
             var list = ListProject();
@@ -326,6 +355,58 @@ namespace OpenProjectIntegrationClassLibrary
             var customer = Newtonsoft.Json.JsonConvert.DeserializeObject<Projects>(json, settings);
 
             return customer;
+        }
+
+        public WorkPackages DeserializeWorkPackage(string json)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                }
+            };
+
+            settings.Converters.Add(new NestedJsonPathConverter());
+
+            var customer = Newtonsoft.Json.JsonConvert.DeserializeObject<WorkPackages>(json, settings);
+
+            return customer;
+        }
+
+        public Activitys DeserializeActivity(string json)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                }
+            };
+
+            settings.Converters.Add(new NestedJsonPathConverter());
+
+            var customer = Newtonsoft.Json.JsonConvert.DeserializeObject<Activitys>(json, settings);
+
+            return customer;
+        }
+
+        private void CompareUserId()
+        {
+            List<WorkPackage> newList = new List<WorkPackage>();
+
+            foreach(WorkPackage workPackage in listWorkPackage)
+            {
+                string[] i = BreakString.BreakStringValue(workPackage.author.href);
+                int j = int.Parse(i[i.Length-1]);
+
+                if(j == 4)
+                {
+                    newList.Add(workPackage);
+                }
+            }
+
+            listWorkPackage = newList;
         }
     }
 }

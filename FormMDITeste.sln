@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenProjectIntegrationClass
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyRegister", "DependencyRegister\DependencyRegister.csproj", "{4A9DE680-0E16-4352-AFA2-C93E3A47C435}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenProjectDataContext", "OpenProjectIntegration\OpenProjectDataContext\OpenProjectDataContext.csproj", "{9AFCFC29-6541-4D63-8294-6C38A55C207C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenProjectDependencyRegister", "OpenProjectIntegration\OpenProjectDependencyRegister\OpenProjectDependencyRegister.csproj", "{F04E21EB-0B12-43A7-9E55-030A69DDF157}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{4A9DE680-0E16-4352-AFA2-C93E3A47C435}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A9DE680-0E16-4352-AFA2-C93E3A47C435}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A9DE680-0E16-4352-AFA2-C93E3A47C435}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AFCFC29-6541-4D63-8294-6C38A55C207C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AFCFC29-6541-4D63-8294-6C38A55C207C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AFCFC29-6541-4D63-8294-6C38A55C207C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AFCFC29-6541-4D63-8294-6C38A55C207C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F04E21EB-0B12-43A7-9E55-030A69DDF157}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F04E21EB-0B12-43A7-9E55-030A69DDF157}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F04E21EB-0B12-43A7-9E55-030A69DDF157}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F04E21EB-0B12-43A7-9E55-030A69DDF157}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

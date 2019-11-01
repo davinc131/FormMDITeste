@@ -16,6 +16,10 @@ namespace OpenProjectIntegrationClassLibrary.Forms
         public FormPlayer()
         {
             InitializeComponent();
+
+            this.BackColor = Color.White;
+            this.TransparencyKey = Color.White;
+
             string startupPath = System.IO.Directory.GetCurrentDirectory();
             string caminho = System.AppDomain.CurrentDomain.BaseDirectory;
 

@@ -15,6 +15,10 @@ namespace OpenProjectIntegrationClassLibrary.Forms
         public FormLogin()
         {
             InitializeComponent();
+
+            btnCancel.FlatAppearance.BorderSize = 0;
+            btnLogin.FlatAppearance.BorderSize = 0;
+            btnRegister.FlatAppearance.BorderSize = 0;
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -47,6 +51,19 @@ namespace OpenProjectIntegrationClassLibrary.Forms
             {
                 FormPlayer formPlayer = new FormPlayer();
                 formPlayer.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                FormRegister formRegister = new FormRegister();
+                formRegister.Show();
             }
             catch (Exception ex)
             {

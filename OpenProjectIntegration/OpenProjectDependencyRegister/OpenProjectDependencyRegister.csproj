@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SQLite" Version="1.0.112" />
+    <PackageReference Include="Unity" Version="5.11.1" />
+    <PackageReference Include="Unity.Abstractions" Version="5.11.1" />
+    <PackageReference Include="Unity.Container" Version="5.11.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OpenProjectDataContext\OpenProjectDataContext.csproj" />
+    <ProjectReference Include="..\OpenProjectIntegrationClassLibrary\OpenProjectIntegrationClassLibrary.csproj" />
+  </ItemGroup>
+
+</Project>
