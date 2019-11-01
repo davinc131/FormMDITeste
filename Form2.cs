@@ -43,11 +43,11 @@ namespace FormMDITeste
             open = new OpenProjectIntegration();
             //response = open.QueryWorkPackage();
             //response = open.CreateWorkPackage();
-            projectId = open.CaptureProjectId("Freemasonry");
-            userId = open.CaptureUserId("davinc131@hotmail.com");
+            //projectId = open.CaptureProjectId("Freemasonry");
+            //userId = open.CaptureUserId("davinc131@hotmail.com");
 
 
-            open.ListCategories();
+            //open.ListCategories();
 
 
             //webBrowser2.ObjectForScripting = new MyScript();

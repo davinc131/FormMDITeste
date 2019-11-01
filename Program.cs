@@ -24,7 +24,7 @@ namespace FormMDITeste
             Container = new UnityContainer();
             DependencyRegister.Register.RegisterObjectInContainer(Container);
 
-            Application.Run(new Form1());
+           Application.Run(new Form1());
         }
     }
 }
